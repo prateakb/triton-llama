@@ -1,0 +1,72 @@
+version: '3.7'
+
+services:
+  triton-server:
+    image: nvcr.io/nvidia/tritonserver:24.07-py3
+    command: >
+      tritonserver
+      --model-repository=/models
+      --allow-gpu-metrics=true
+      --metrics-interval-ms=1
+      --trace-config level=TIMESTAMPS
+      --trace-config rate=1
+      --trace-config opentelemetry,url=http://loki:3100
+      --http-port=8000
+      --grpc-port=8001
+      --metrics-port=8002
+      --log-verbose=2
+      --log-info=1
+      --log-warning=1
+      --log-error=1
+      --metrics-config summary_latencies=true
+      --log-file=/logs/triton-server-log.log
+    volumes:
+      - ./models:/models
+      - ./logs:/logs  
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+    deploy:
+      resources:
+        limits:
+          cpus: '10'
+          memory: 12GB
+  loki:
+    image: grafana/loki:latest
+    volumes:
+      - ./loki:/mnt/config
+    command: -config.file=/mnt/config/loki-config.yml
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log:/var/log:ro
+      - ./promtail:/etc/promtail/
+      - ./logs:/logs/
+    command: -config.file=/etc/promtail/promtail-config.yaml
+
+  prometheus:
+    image: prom/prometheus:v2.37.0
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"  # Change this as necessary
+
+volumes:
+  grafana_data:
+  models:
+  loki:
+  loki_wal:

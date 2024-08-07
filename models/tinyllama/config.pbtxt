@@ -1,0 +1,33 @@
+name: "tinyllama"
+backend: "onnxruntime"
+max_batch_size: 32  # Set this according to your model's capability and hardware
+input [
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+output [
+  {
+    name: "output"
+    data_type: TYPE_FP32
+    dims: [ -1, 32003 ]
+  }
+]
+instance_group [
+  {
+    count: 1  # Number of model instances to deploy (for CPU/GPU)
+    kind: KIND_CPU  # or KIND_GPU
+  }
+]
+
+dynamic_batching {
+  preferred_batch_size: [1,2]  # Adjust according to your needs
+  max_queue_delay_microseconds: 100  # Maximum delay to wait for batching
+}
+
+
+
+
+
