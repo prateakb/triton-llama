@@ -1,4 +1,5 @@
 
+
 ## Frequently Asked Questions (FAQ)
 
 ### General Questions
@@ -41,10 +42,6 @@
 
 -   **A:**  Change the model files or the  `config.pbtxt`  file as needed and restart the Triton server to apply updates.
 
-**Q9: Can I increase the Triton server's capacity for more traffic?**
-
--   **A:**  Yes, you can scale up the server. Increase the number of server instances in the  `docker-compose.yml`  file by changing the  `replicas`  setting.
-
 ### Adding a New Model to Triton
 
 1.  **Prepare the Model**: Make sure your new model is ready for Triton, in ONNX, TensorFlow, or TorchScript format.
@@ -70,4 +67,15 @@
 
 **How does this help improve training data?**
 
--   **Identifying Patterns**: By reviewing logged data, you can spot common issues or patterns. This information can help improve how the model responds or enhance the training data to cover gaps in knowledge.
+-   **Identifying Patterns**: By reviewing logged data, you can spot common issues or patterns. This information can help improve how the model responds or enhance the training data to cover gaps in knowledge. 
+
+**Deployment Overview:**
+
+
+1.  **Set up Kubernetes Cluster**: Create a kubernetes cluster on (eg EKS) with enough power to handle the models. You may need to use node groups that support the triton server and provision instances with the GPUs needed in the node group. 
+
+2.  **Use S3 for Models**: Set up an S3 bucket to keep the models and configure Triton to use this bucket. This bucket can be passed to the triton containers for the CLI argument `model-repo` . see [this link](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_repository.html)
+
+3.  **Deploy Triton on Kubernetes**: Use the official docker image provided by Nvidia and add layers to create custom images if needed.
+
+4.  **Set Up DataDog**: Install DataDog to collect data for telemetry and observability.
