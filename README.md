@@ -1,5 +1,5 @@
 
-This repository guides you through deploying transformer models using NVIDIA's Triton Inference Server. It includes scripts for converting models and setting up a monitoring environment with Prometheus, Grafana, and Loki.
+This repository guides you for deploying transformer models using NVIDIA's Triton Inference Server. It includes scripts for converting models and setting up a monitoring environment with Prometheus, Grafana, and Loki.
 
 **Triton Inference Server:** Serves models efficiently.
 **Model Conversion:** Scripts to convert Hugging Face models to ONNX, ready for Triton.
@@ -58,12 +58,12 @@ Before you import the  `dashboard.json`  file into Grafana, you must configure t
 3.  **Configure Prometheus**:
     
     -   Select "Prometheus" as the type.
-    -   Set the URL to where your Prometheus server is running, typically  `http://prometheus:9090`.
+    -   Set the URL to where your Prometheus server is running  `http://prometheus:9090`.
     -   Save and test the connection to ensure it's set up correctly.
 4.  **Configure Loki**:
     
     -   Select "Loki" as the type.
-    -   Set the URL to where your Loki server is running, typically  `http://loki:3100`.
+    -   Set the URL to where your Loki server is running  `http://loki:3100`.
     -   Save and test the connection to confirm it works.
 
 ### Importing the Dashboard
