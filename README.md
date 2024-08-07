@@ -35,12 +35,6 @@ The system uses Docker Compose to run several services:
 **Prometheus:** Gathers and keeps track of performance metrics from the Triton server.
 **Grafana:** Shows data from Prometheus and Loki in visual format for easy understanding and action.
 
-## Setting Up Grafana Dashboards
-
-
-Certainly! Here’s how you can add instructions to set up data sources in Grafana before importing the dashboard:
-
-----------
 
 ## Setting Up Grafana Dashboards
 
