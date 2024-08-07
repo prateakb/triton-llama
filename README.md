@@ -2,7 +2,9 @@
 This repository guides you for deploying transformer models using NVIDIA's Triton Inference Server. It includes scripts for converting models and setting up a monitoring environment with Prometheus, Grafana, and Loki.
 
 **Triton Inference Server:** Serves models efficiently.
+
 **Model Conversion:** Scripts to convert Hugging Face models to ONNX, ready for Triton.
+
 **Observability:** Built-in with Prometheus, Grafana, and Loki for monitoring.
 
 ### Requirements
@@ -30,9 +32,13 @@ Monitoring: Access Grafana at http://localhost:3000 for dashboards and Prometheu
 The system uses Docker Compose to run several services:
 
 **Triton Server:** Hosts the AI model and handles requests for model predictions.
+
 **Loki:** Collects and stores logs from the Triton server.
+
 **Promtail:** Sends logs from the server to Loki.
+
 **Prometheus:** Gathers and keeps track of performance metrics from the Triton server.
+
 **Grafana:** Shows data from Prometheus and Loki in visual format for easy understanding and action.
 
 

@@ -4,7 +4,28 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import tritonclient.http as httpclient
 from tritonclient.utils import *
-import numpy as np
+import psycopg2
+from datetime import datetime
+
+# Function to connect to the PostgreSQL database
+def connect_db():
+    return psycopg2.connect(
+        dbname="tritondata",
+        user="user",
+        password="password",
+        host="localhost"  # Change to the service name in Docker if running inside a container
+    )
+
+# Function to log inference data
+def log_inference(input_text, output_text):
+    conn = connect_db()
+    with conn:
+        with conn.cursor() as curs:
+            curs.execute("""
+                INSERT INTO inference_logs (input_text, output_text)
+                VALUES (%s, %s)
+            """, (input_text, output_text))
+    conn.close()
 
 # Configuration
 model_name = "PY007/TinyLlama-1.1B-Chat-v0.3"
@@ -16,7 +37,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model_name="tinyllama"
 
 # Function to generate text using the model hosted on Triton Inference Server
-def generate_text_triton(input_text, max_length=15):
+def generate_text_triton(input_text, max_length=5):
     # Tokenize the input text
     input_ids = tokenizer(input_text, return_tensors="pt").input_ids.numpy()
     generated_ids = input_ids.tolist()
@@ -67,3 +88,4 @@ def generate_text_triton(input_text, max_length=15):
 prompt = "Genhealth AI is an awesome company that is currently"
 result = generate_text_triton(prompt)
 print("Generated text:", result)
+log_inference(prompt, result)

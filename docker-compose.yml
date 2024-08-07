@@ -64,9 +64,20 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       GF_SECURITY_ADMIN_PASSWORD: "admin"  # Change this as necessary
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: tritondata
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d  # Mount the initialization scripts directory
 
 volumes:
   grafana_data:
   models:
   loki:
-  loki_wal:
+  postgres-data:
