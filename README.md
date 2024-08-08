@@ -25,7 +25,11 @@ Set up the Triton server and monitoring tools using Docker Compose.
 
 **Testing the web server:**
 Run `python demo/test-triton.py` to test the model on the Triton server.
+
 Monitoring: Access Grafana at http://localhost:3000 for dashboards and Prometheus at http://localhost:9090 for metrics.
+ Log in with the default credentials (user, pwd both are admin) for grafana or ones you set to see the dashboards.
+
+**Q7: What should I do if the model isn't working right?**
 
 ### Tech Stack Details
 
